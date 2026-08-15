@@ -8,7 +8,8 @@
     "dev": "concurrently -n server,web -c yellow,cyan \"bun run --cwd server dev\" \"bun run --cwd web dev\"",
     "build": "bun run --cwd web build",
     "start": "bun run --cwd server start",
-    "install:all": "bun install && bun install --cwd server && bun install --cwd web"
+    "install:all": "bun install && bun install --cwd server && bun install --cwd web",
+    "release": "./release.sh"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

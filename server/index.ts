@@ -12,7 +12,14 @@ const HOST = "127.0.0.1"
 const ALLOWED_ORIGINS = new Set(["http://localhost:5173", "http://127.0.0.1:5173"])
 const KNOWN_API_PATHS = new Set(["/api/overview", "/api/ports", "/api/settings", "/api/pins", "/api/events", "/api/kill"])
 
-const distDir = path.resolve(import.meta.dir, "..", "web", "dist")
+// In the source layout: <repo>/web/dist. In a compiled/standalone release the
+// binary lives next to a `web/dist` folder, so try that first, then the repo path.
+const exeDir = path.dirname(process.execPath)
+const distDir = (() => {
+  const bundled = path.join(exeDir, "web", "dist")
+  if (fs.existsSync(bundled)) return bundled
+  return path.resolve(import.meta.dir, "..", "web", "dist")
+})()
 const serveStatic = process.env.NODE_ENV === "production" || fs.existsSync(distDir)
 
 const MIME: Record<string, string> = {

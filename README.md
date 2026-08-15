@@ -60,6 +60,16 @@ bun run dev          # server (:5335) + web (:5173) together
 
 Then open **http://localhost:5173**.
 
+### Install from a release
+
+Prefer a binary? Grab the latest `collet-<version>-darwin-<arch>.zip` from [Releases](../../releases), unzip it, and run:
+
+```bash
+./collet              # standalone binary — serves the built UI + API on :5335
+```
+
+Then open **http://localhost:5335**. No Node, no Bun install needed.
+
 | Script | What it does |
 |---|---|
 | `bun run dev` | concurrently runs `server` (Bun, `--watch`) and `web` (Vite) |
