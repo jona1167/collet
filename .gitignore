@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+.bun/
+
+# Build output
+dist/
+build/
+
+# Collet runtime data
+.keel/
+.collet/
+*.log
+
+# OS
+.DS_Store
+
+# local screenshot tooling
+.shots/

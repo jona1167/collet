@@ -1,0 +1,16 @@
+{
+  "name": "collet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Collet — hold the line. Watch, manage, and kill your local ports & processes.",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n server,web -c yellow,cyan \"bun run --cwd server dev\" \"bun run --cwd web dev\"",
+    "build": "bun run --cwd web build",
+    "start": "bun run --cwd server start",
+    "install:all": "bun install && bun install --cwd server && bun install --cwd web"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
