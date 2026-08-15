@@ -1,6 +1,8 @@
 <div align="center">
 
-# ⌁ collet
+<img src="web/public/icon.png" alt="collet" width="72">
+
+# collet
 
 **Hold the line.**
 
