@@ -8,12 +8,14 @@
 
 A premium dark-first macOS port & process monitor. Watch every socket on your machine, spot what's exposed beyond loopback, and kill it with one click — SIGTERM first, SIGKILL when it's rude.
 
-![Bun](https://img.shields.io/badge/runtime-Bun-%23fbf0df?style=flat-square&logo=bun&logoColor=white&labelColor=black)
+![Made with Bun](https://img.shields.io/badge/Made_with-Bun-%23fbf0df?style=flat-square&logo=bun&logoColor=white&labelColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white&labelColor=black)
 ![React 19](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black&labelColor=black)
 ![Vite 8](https://img.shields.io/badge/Vite_8-646CFF?style=flat-square&logo=vite&logoColor=white&labelColor=black)
 ![Tailwind v4](https://img.shields.io/badge/Tailwind_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white&labelColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white&labelColor=black)
 ![macOS](https://img.shields.io/badge/platform-macOS-000000?style=flat-square&logo=apple&logoColor=white&labelColor=black)
+![Stars](https://img.shields.io/github/stars/jona1167/collet?style=flat-square&logo=github&logoColor=white&labelColor=black)
+![License](https://img.shields.io/github/license/jona1167/collet?style=flat-square&labelColor=black)
 
 </div>
 
@@ -65,6 +67,33 @@ Then open **http://localhost:5173**.
 | `bun run start` | run the server alone (serves `web/dist` statically at `:5335`) |
 | `bun run install:all` | install root + `server/` + `web/` dependencies |
 
+## ✦ Live demo
+
+Collet is a **local-first** tool — it reads `lsof`/`ps` on your own Mac, so the demo is your machine.
+
+```bash
+bun run dev          # then open http://localhost:5173
+```
+
+<p align="center">
+  <img src="web/public/screenshots/ports.png" alt="Collet ports table" width="880">
+</p>
+
+## ✦ Dependencies
+
+Collet runs on [Bun](https://bun.sh) end-to-end (runtime, server, and bundler). The frontend pulls in a small, focused set of libraries:
+
+| Package | Why |
+|---|---|
+| [React 19](https://react.dev) + [Vite 8](https://vite.dev) | UI and build tooling |
+| [Tailwind CSS v4](https://tailwindcss.com) | styling |
+| [zustand](https://github.com/pmndrs/zustand) | tiny global state (store, SSE snapshot, pins) |
+| [TanStack Table](https://tanstack.com/table) | sortable ports table |
+| [cmdk](https://cmdk.paco.me) | `⌘K` command palette |
+| [sonner](https://sonner.emilkowal.ski) | toast notifications |
+
+The server has **zero runtime dependencies** — Bun's stdlib plus `lsof`/`ps` is all it needs.
+
 ## ✦ Keyboard
 
 `↑` `↓` navigate rows · `↵` open drawer · `X` kill · `Esc` close overlays · `⌘K` command palette · `⌘F` focus search
@@ -85,3 +114,7 @@ web/      React + Vite + Tailwind v4 + zustand + TanStack Table (port 5173, prox
 - macOS only (uses `lsof`, `ps`).
 - Pins live at `~/.collet/pins.json` (atomic write).
 - `kill` requires permission for the target process; non-owners get a 403.
+
+## ✦ License
+
+[MIT](LICENSE) © 2026 Jonathan
