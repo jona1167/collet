@@ -19,7 +19,7 @@ export const IS_DEMO =
 
 /* ---------- sample data ---------- */
 
-const BASE = 1_800_000_000
+const BASE = Math.floor(Date.now() / 1000)
 
 function entry(
   port: number,
@@ -49,8 +49,8 @@ function entry(
     cmdline,
     type,
     user: "dev",
-    startedAt: new Date(BASE - uptimeSec * 1000).toISOString().slice(0, 19),
-    startedEpoch: BASE - uptimeSec * 1000,
+    startedAt: new Date((BASE - uptimeSec) * 1000).toISOString().slice(0, 19),
+    startedEpoch: BASE - uptimeSec,
     uptimeSec,
     rssBytes,
     cpuPct,
@@ -81,8 +81,8 @@ let mockPorts: PortEntry[] = [
 ]
 
 const mockPinMap = new Map<number, Pin>([
-  [5173, { port: 5173, note: "collet web — hot reload", createdAt: BASE - 3600_000 }],
-  [5432, { port: 5432, note: "local postgres (dev DB)", createdAt: BASE - 86_400_000 }],
+  [5173, { port: 5173, note: "collet web — hot reload", createdAt: BASE - 3600 }],
+  [5432, { port: 5432, note: "local postgres (dev DB)", createdAt: BASE - 86_400 }],
 ])
 
 let transient: { ports: PortEntry[]; until: number } | null = null
@@ -108,7 +108,7 @@ export function demoOverview(): Overview {
   })
   topRam.sort((a, b) => b.rssBytes - a.rssBytes)
   const history: Overview["history"] = Array.from({ length: 24 }, (_, i) => ({
-    t: Date.now() - (23 - i) * 2000,
+    t: Math.floor((Date.now() - (23 - i) * 2000) / 1000),
     count: listening + Math.round(Math.sin(i / 2.4) * 2),
     rss: totalRss + Math.round(Math.sin(i / 3.1) * 4e7),
   }))
