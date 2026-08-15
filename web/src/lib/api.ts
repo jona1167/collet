@@ -9,6 +9,17 @@ import type {
   Settings,
   SnapshotEvent,
 } from "./types"
+import {
+  IS_DEMO,
+  DemoEventSource,
+  demoDeletePin,
+  demoOverview,
+  demoPins,
+  demoPorts,
+  demoProcess,
+  demoPutPin,
+  demoSettings,
+} from "./demo"
 
 export class ApiError extends Error {
   readonly status: number
@@ -48,9 +59,13 @@ export interface PortsParams {
 }
 
 export const api = {
-  overview: () => request<Overview>("/overview"),
+  overview: () => {
+    if (IS_DEMO) return Promise.resolve(demoOverview())
+    return request<Overview>("/overview")
+  },
 
   ports: (params: PortsParams = {}) => {
+    if (IS_DEMO) return Promise.resolve(demoPorts(params))
     const qs = new URLSearchParams()
     if (params.type && params.type !== "all") qs.set("type", params.type)
     if (params.query) qs.set("query", params.query)
@@ -58,34 +73,58 @@ export const api = {
     return request<PortsResponse>(`/ports${q ? `?${q}` : ""}`)
   },
 
-  process: (pid: number) => request<ProcessDetail>(`/processes/${pid}`),
+  process: (pid: number) => {
+    if (IS_DEMO) {
+      const d = demoProcess(pid)
+      return d ? Promise.resolve(d) : Promise.reject(new ApiError(404, "process not found"))
+    }
+    return request<ProcessDetail>(`/processes/${pid}`)
+  },
 
-  kill: (pid: number, opts: { force: boolean; tree: boolean }) =>
-    request<KillResponse>(
+  kill: (pid: number, opts: { force: boolean; tree: boolean }) => {
+    if (IS_DEMO) {
+      return Promise.resolve({ killed: [pid], signal: opts.force ? "SIGKILL" : "SIGTERM", failed: [] } as KillResponse)
+    }
+    return request<KillResponse>(
       `/processes/${pid}?force=${opts.force}&tree=${opts.tree}`,
       { method: "DELETE" },
-    ),
+    )
+  },
 
-  killMany: (pids: number[], opts: { force: boolean; tree: boolean }) =>
-    request<KillResponse>("/kill", {
+  killMany: (pids: number[], opts: { force: boolean; tree: boolean }) => {
+    if (IS_DEMO) {
+      return Promise.resolve({ killed: pids, signal: opts.force ? "SIGKILL" : "SIGTERM", failed: [] } as KillResponse)
+    }
+    return request<KillResponse>("/kill", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pids, force: opts.force, tree: opts.tree }),
-    }),
+    })
+  },
 
-  pins: () => request<PinsResponse>("/pins"),
+  pins: () => {
+    if (IS_DEMO) return Promise.resolve(demoPins())
+    return request<PinsResponse>("/pins")
+  },
 
-  putPin: (port: number, note: string) =>
-    request<{ ok: boolean }>(`/pins/${port}`, {
+  putPin: (port: number, note: string) => {
+    if (IS_DEMO) return Promise.resolve(demoPutPin(port, note))
+    return request<{ ok: boolean }>(`/pins/${port}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ note }),
-    }),
+    })
+  },
 
-  deletePin: (port: number) =>
-    request<{ ok: boolean }>(`/pins/${port}`, { method: "DELETE" }),
+  deletePin: (port: number) => {
+    if (IS_DEMO) return Promise.resolve({ ok: demoDeletePin(port) })
+    return request<{ ok: boolean }>(`/pins/${port}`, { method: "DELETE" })
+  },
 
-  settings: () => request<Settings>("/settings"),
+  settings: () => {
+    if (IS_DEMO) return Promise.resolve(demoSettings())
+    return request<Settings>("/settings")
+  },
 }
 
 /** EventSource wrapper. EventSource auto-reconnects natively. */
@@ -93,6 +132,18 @@ export function connectEvents(
   onSnapshot: (event: SnapshotEvent) => void,
   onStatus: (up: boolean) => void,
 ): EventSource {
+  if (IS_DEMO) {
+    const demo = new DemoEventSource()
+    demo.onopen = () => onStatus(true)
+    demo.addEventListener("snapshot", (ev) => {
+      try {
+        onSnapshot(JSON.parse(ev.data) as SnapshotEvent)
+      } catch {
+        /* malformed frame — ignore */
+      }
+    })
+    return demo as unknown as EventSource
+  }
   const es = new EventSource(`${BASE}/events`)
   es.addEventListener("snapshot", (ev) => {
     try {

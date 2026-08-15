@@ -79,7 +79,12 @@ Then open **http://localhost:5335**. No Node, no Bun install needed.
 
 ## ✦ Live demo
 
-Collet is a **local-first** tool — it reads `lsof`/`ps` on your own Mac, so the demo is your machine.
+👉 **Try it live on GitHub Pages** — no install needed:
+https://jona1167.github.io/collet/
+
+Collet is a **local-first** tool — it reads `lsof`/`ps` on your own Mac, so the hosted
+demo runs in a built-in demo mode with realistic sample data (add `?demo` to any local
+install to preview it too).
 
 ```bash
 bun run dev          # then open http://localhost:5173
