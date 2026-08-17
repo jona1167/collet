@@ -25,7 +25,7 @@ export function Sidebar() {
   return (
     <aside className={`sidebar ${collapsed ? "sidebar--collapsed" : ""}`}>
       <div className="brand">
-        <img className="brand-icon" src="/icon.png" alt="collet" />
+        <img className="brand-icon" src={`${import.meta.env.BASE_URL}icon.png`} alt="collet" />
         {!collapsed && <span className="brand-word">collet</span>}
       </div>
 
