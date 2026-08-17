@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="web/public/icon.png" alt="collet" width="72">
+<img src="https://jona1167.github.io/collet/icon.png" alt="collet" width="72">
 
 # collet
 
@@ -24,7 +24,7 @@ A premium dark-first macOS port & process monitor. Watch every socket on your ma
 Local dev servers, Spring Boot, Docker, LLM services, mDNS noise — everything holding a port on your machine, in one live view. Collet polls `lsof` every 2 seconds, streams every snapshot to your browser over SSE, and gives you the full picture: what's bound, what's exposed beyond loopback, who's eating RAM, and which process to thank (or terminate).
 
 <p align="center">
-  <img src="web/public/screenshots/overview.png" alt="Collet overview" width="880">
+  <img src="https://jona1167.github.io/collet/screenshots/overview.png" alt="Collet overview" width="880">
 </p>
 
 ## ✦ What it does
@@ -39,14 +39,14 @@ Local dev servers, Spring Boot, Docker, LLM services, mDNS noise — everything 
 | **Command palette** | `⌘K` to jump to ports / pins / overview, or inspect & kill a process by name. |
 
 <p align="center">
-  <img src="web/public/screenshots/ports.png" alt="Collet ports table" width="880">
+  <img src="https://jona1167.github.io/collet/screenshots/ports.png" alt="Collet ports table" width="880">
 </p>
 
 ## ✦ A closer look
 
 <p align="center">
-  <img src="web/public/screenshots/drawer.png" alt="Collet process drawer" width="880">
-  <img src="web/public/screenshots/palette.png" alt="Collet command palette" width="880">
+  <img src="https://jona1167.github.io/collet/screenshots/drawer.png" alt="Collet process drawer" width="880">
+  <img src="https://jona1167.github.io/collet/screenshots/palette.png" alt="Collet command palette" width="880">
 </p>
 
 ## ✦ Quick start
@@ -91,7 +91,7 @@ bun run dev          # then open http://localhost:5173
 ```
 
 <p align="center">
-  <img src="web/public/screenshots/ports.png" alt="Collet ports table" width="880">
+  <img src="https://jona1167.github.io/collet/screenshots/ports.png" alt="Collet ports table" width="880">
 </p>
 
 ## ✦ Dependencies
